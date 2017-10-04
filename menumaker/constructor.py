@@ -58,8 +58,8 @@ if __name__ == "__main__":
     root = tk.Tk()
     menu = tk.Menu(root)
 
-    constructor(menu, {"menus": OrderedDict([(
-        "file", {"items": ["new", "open", "save"]}),
+    constructor(menu, {"menus": OrderedDict([
+        ("file", {"items": ["new", "open", "save"]}),
         ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
         ("-background", {"items": ["()green", "()red"]}),
         ("view", {"items": ["[]toolbar", "-background"]})

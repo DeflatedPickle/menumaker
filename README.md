@@ -42,8 +42,8 @@ import tkinter as tk
 import menumaker
 
 menubar = tk.Menu()
-menumaker.constructor(menu, {"menus": OrderedDict([(
-    "file", {"items": ["new", "open", "save"]}),
+menumaker.constructor(menu, {"menus": OrderedDict([
+    ("file", {"items": ["new", "open", "save"]}),
     ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
     ("-background", {"items": ["()green", "()red"]}),
     ("view", {"items": ["[]toolbar", "-background"]})
