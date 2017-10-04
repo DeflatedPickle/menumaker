@@ -16,8 +16,9 @@ def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: 
         for item in menus["menus"][menu]:
             # print("Item:", item)
             for command in menus["menus"][menu]["items"]:
-                print("Command:", command)
-                tkmenu.add_command(label=command if not title else command.title(), command=_set_command(command) if auto_functions else None)
+                # print("Command:", command)
+                tkmenu.add_command(label=command if not title else command.title(),
+                                   command=_set_command(command) if auto_functions else None)
 
         parent.add_cascade(label=menu if not title else menu.title(), menu=tkmenu)
         # print("-----")
@@ -37,11 +38,6 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     menu = tk.Menu(root)
-
-    # constructor(menu, {"menus": {
-    #     "file": ["new", "open", "save"],
-    #     "edit": ["undo", "redo"]
-    # }})
 
     constructor(menu, {"menus": {
         "file": {"items": ["new", "open", "save"]},
