@@ -35,8 +35,9 @@ import menumaker
 
 menubar = tk.Menu()
 menumaker.constructor(menubar, {"menus": {
-    "file": {"items": ["new", "open", "save"]},
-    "edit": {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}}})
+        "file": {"items": ["new", "open", "save"]},
+        "edit": {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}
+    }})
 ```
 
 ## Plan:
