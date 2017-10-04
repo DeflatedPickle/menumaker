@@ -3,9 +3,10 @@
 """"""
 
 import tkinter as tk
+from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.4.0"
+__version__ = "1.5.0"
 __author__ = "DeflatedPickle"
 
 
@@ -17,11 +18,15 @@ def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: 
             # print("Item:", item)
             for command in menus["menus"][menu]["items"]:
                 # print("Command:", command)
+                title = command if not title else command.title()
                 if command == "---":
                     tkmenu.add_separator()
 
+                elif "[]" in command:
+                    tkmenu.add_checkbutton(label=title.replace("[]", ""))
+
                 else:
-                    tkmenu.add_command(label=command if not title else command.title(),
+                    tkmenu.add_command(label=title,
                                        command=_set_command(command) if auto_functions else None)
 
         # print("-----")
@@ -45,7 +50,8 @@ if __name__ == "__main__":
 
     constructor(menu, {"menus": {
         "file": {"items": ["new", "open", "save"]},
-        "edit": {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}
+        "edit": {"items": ["undo", "redo", "---", "cut", "copy", "paste"]},
+        "view": {"items": ["[]toolbar"]},
     }})
 
     root.configure(menu=menu)
