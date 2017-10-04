@@ -6,7 +6,7 @@ import tkinter as tk
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 __author__ = "DeflatedPickle"
 
 
@@ -24,6 +24,9 @@ def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: 
 
                 elif "[]" in command:
                     tkmenu.add_checkbutton(label=title.replace("[]", ""))
+
+                elif "()" in command:
+                    tkmenu.add_radiobutton(label=title.replace("()", ""))
 
                 else:
                     tkmenu.add_command(label=title,
@@ -51,7 +54,7 @@ if __name__ == "__main__":
     constructor(menu, {"menus": {
         "file": {"items": ["new", "open", "save"]},
         "edit": {"items": ["undo", "redo", "---", "cut", "copy", "paste"]},
-        "view": {"items": ["[]toolbar"]},
+        "view": {"items": ["[]toolbar", "()green", "()red"]},
     }})
 
     root.configure(menu=menu)
