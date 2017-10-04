@@ -7,7 +7,7 @@ How? A function call with dictionaries and lists.
 
 Why should I use this? It'll save you time.
 
-## Conversion:
+## Comparison:
 ### Normal Tkinter:
 ```python
 import tkinter as tk
