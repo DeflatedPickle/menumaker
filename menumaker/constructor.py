@@ -20,8 +20,8 @@ def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: 
                 tkmenu.add_command(label=command if not title else command.title(),
                                    command=_set_command(command) if auto_functions else None)
 
-        parent.add_cascade(label=menu if not title else menu.title(), menu=tkmenu)
         # print("-----")
+        parent.add_cascade(label=menu if not title else menu.title(), menu=tkmenu)
 
 
 def _set_command(command):
