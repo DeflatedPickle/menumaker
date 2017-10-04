@@ -5,7 +5,7 @@
 import tkinter as tk
 
 __title__ = "Constructor"
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 __author__ = "DeflatedPickle"
 
 
@@ -14,8 +14,9 @@ def constructor(parent: tk.Menu, menus: dict, title: bool=True):
         # print("Menu:", menu)
         tkmenu = tk.Menu(parent)
         for item in menus["menus"][menu]:
-            # print("Item:", item)
-            tkmenu.add_command(label=item if not title else item.title())
+            for command in menus["menus"][menu]["items"]:
+                # print("Item:", item)
+                tkmenu.add_command(label=command if not title else command.title())
 
         parent.add_cascade(label=menu if not title else menu.title(), menu=tkmenu)
         # print("-----")
@@ -26,9 +27,14 @@ if __name__ == "__main__":
     root = tk.Tk()
     menu = tk.Menu(root)
 
+    # constructor(menu, {"menus": {
+    #     "file": ["new", "open", "save"],
+    #     "edit": ["undo", "redo"]
+    # }})
+
     constructor(menu, {"menus": {
-        "file": ["new", "open", "save"],
-        "edit": ["undo", "redo"]
+        "file": {"items": ["new", "open", "save"]},
+        "edit": {"items": ["undo", "redo"]}
     }})
 
     root.configure(menu=menu)
