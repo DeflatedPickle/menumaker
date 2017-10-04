@@ -5,11 +5,11 @@
 import tkinter as tk
 
 __title__ = "Constructor"
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 __author__ = "DeflatedPickle"
 
 
-def constructor(parent: tk.Menu, menus: dict, title: bool=True):
+def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
     for menu in menus["menus"]:
         # print("Menu:", menu)
         tkmenu = tk.Menu(parent)
@@ -17,7 +17,7 @@ def constructor(parent: tk.Menu, menus: dict, title: bool=True):
             # print("Item:", item)
             for command in menus["menus"][menu]["items"]:
                 print("Command:", command)
-                tkmenu.add_command(label=command if not title else command.title(), command=_set_command(command))
+                tkmenu.add_command(label=command if not title else command.title(), command=_set_command(command) if auto_functions else None)
 
         parent.add_cascade(label=menu if not title else menu.title(), menu=tkmenu)
         # print("-----")
