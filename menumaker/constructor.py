@@ -6,7 +6,7 @@ import tkinter as tk
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.8.1"
+__version__ = "1.8.2"
 __author__ = "DeflatedPickle"
 
 
@@ -51,7 +51,7 @@ def _set_command(command):
         return None
 
 def _check_variable(string: str, brackets: str):
-    return string[string.index(brackets[0]):string.index(brackets[1]) + 1]
+    return string[string.index(brackets[0]) + 1:string.index(brackets[1])]
 
 def _remove_brackets(string: str, brackets: str):
     return string[string.index(brackets[1]) + 1:]
