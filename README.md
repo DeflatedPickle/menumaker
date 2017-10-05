@@ -12,6 +12,9 @@ Why should I use this? It'll save you time.
 ```python
 import tkinter as tk
 
+var = tk.IntVar()
+var2 = tk.BooleanVar()
+
 menubar = tk.Menu()
 
 file = tk.Menu(menubar)
@@ -30,11 +33,11 @@ edit.add_command(label="Paste")
 menubar.add_cascade(label="Edit", menu=edit)
 
 background = tk.Menu(menubar)
-background.add_radiobutton(label="Green")
-background.add_radiobutton(label="Red")
+background.add_radiobutton(label="Green", variable=var)
+background.add_radiobutton(label="Red", variable=var)
 
 view = tk.Menu(menubar)
-view.add_checkbutton(label="Toolbar")
+view.add_checkbutton(label="Toolbar", variable=var2)
 view.add_cascade(label="Background", menu=background)
 menubar.add_cascade(label="View", menu=view)
 ```
@@ -45,13 +48,16 @@ import tkinter as tk
 from collections import OrderedDict
 import menumaker
 
+var = tk.IntVar()
+var2 = tk.BooleanVar()
+
 menubar = tk.Menu()
-menumaker.constructor(menubar, {"menus": OrderedDict([
+menumaker.constructor(menubar, OrderedDict([
     ("file", {"items": ["new", "open", "save"]}),
     ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
-    ("-background", {"items": ["()green", "()red"]}),
-    ("view", {"items": ["[]toolbar", "-background"]})
-])})
+    ("-background", {"items": ["(var)green", "(var)red"]}),
+    ("view", {"items": ["[var2]toolbar", "-background"]})
+]))
 ```
 
 ## Syntax:
