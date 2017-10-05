@@ -53,3 +53,9 @@ menumaker.constructor(menubar, {"menus": OrderedDict([
     ("view", {"items": ["[]toolbar", "-background"]})
 ])})
 ```
+
+## Syntax:
+- `[]` - A Checkbutton.
+- `()` - A Radiobutton.
+- `-` - A sub-menu.
+- `---` - Separator.
