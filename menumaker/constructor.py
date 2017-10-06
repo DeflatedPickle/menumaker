@@ -10,11 +10,12 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.10.2"
+__version__ = "1.10.3"
 __author__ = "DeflatedPickle"
 
 
 def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
+    menus = OrderedDict(menus)
     all_menus = {}
 
     for menu in menus:
@@ -85,12 +86,12 @@ if __name__ == "__main__":
 
     var.trace_variable("w", lambda *args: print("Changed!"))
 
-    constructor(menu, OrderedDict([
+    constructor(menu, [
         ("file", {"items": ["new", "open", "save"]}),
         ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
         ("-background", {"items": ["(var)green", "(var)red"]}),
         ("view", {"items": ["[var2]toolbar", "-background"]})
-    ]))
+    ])
 
     root.configure(menu=menu)
     root.mainloop()
