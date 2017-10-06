@@ -1,5 +1,4 @@
 import tkinter as tk
-from collections import OrderedDict
 import menumaker
 
 def new():

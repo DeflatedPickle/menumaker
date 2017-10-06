@@ -14,7 +14,8 @@ __version__ = "1.10.3"
 __author__ = "DeflatedPickle"
 
 
-def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
+# def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
+def constructor(parent, menus, title=True, auto_functions=True):
     menus = OrderedDict(menus)
     all_menus = {}
 
@@ -58,15 +59,15 @@ def _set_command(command):
         return None
 
 
-def _check_variable(string: str, brackets: str):
+def _check_variable(string, brackets):
     return string[string.index(brackets[0]) + 1:string.index(brackets[1])]
 
 
-def _remove_brackets(string: str, brackets: str):
+def _remove_brackets(string, brackets):
     return string[string.index(brackets[1]) + 1:]
 
 
-def _check_brackets(string: str, brackets: str):
+def _check_brackets(string, brackets):
     if not string.index(brackets[0]) == string.index(brackets[1]) + 1:
         return getattr(__import__("__main__"), _check_variable(string, brackets))
 
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     var = tk.IntVar()
     var2 = tk.BooleanVar()
 
-    var.trace_variable("w", lambda *args: print("Changed!"))
+    # var.trace_variable("w", lambda *args: print("Changed!"))
 
     constructor(menu, [
         ("file", {"items": ["new", "open", "save"]}),
