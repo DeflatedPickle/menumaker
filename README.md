@@ -13,13 +13,20 @@ Both of the following code snippets produce the same output, but as you'll see, 
 ```python
 import tkinter as tk
 
+root = tk.Tk()
+
+def new():
+    print("New!")
+
 var = tk.IntVar()
 var2 = tk.BooleanVar()
+
+var.trace_variable("w", lambda *args: print("Changed!"))
 
 menubar = tk.Menu()
 
 file = tk.Menu(menubar)
-file.add_command(label="New")
+file.add_command(label="New", command=new)
 file.add_command(label="Open")
 file.add_command(label="Save")
 menubar.add_cascade(label="File", menu=file)
@@ -41,6 +48,9 @@ view = tk.Menu(menubar)
 view.add_checkbutton(label="Toolbar", variable=var2)
 view.add_cascade(label="Background", menu=background)
 menubar.add_cascade(label="View", menu=view)
+
+root.configure(menu=menubar)
+root.mainloop()
 ```
 
 ### MenuMaker:
@@ -49,16 +59,26 @@ import tkinter as tk
 from collections import OrderedDict
 import menumaker
 
+def new():
+    print("New!")
+
+root = tk.Tk()
+menubar = tk.Menu(root)
+
 var = tk.IntVar()
 var2 = tk.BooleanVar()
 
-menubar = tk.Menu()
+var.trace_variable("w", lambda *args: print("Changed!"))
+
 menumaker.constructor(menubar, OrderedDict([
     ("file", {"items": ["new", "open", "save"]}),
     ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
     ("-background", {"items": ["(var)green", "(var)red"]}),
     ("view", {"items": ["[var2]toolbar", "-background"]})
 ]))
+
+root.configure(menu=menubar)
+root.mainloop()
 ```
 
 ## Syntax:
