@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 """"""
 
-import tkinter as tk
+try:
+    import Tkinter as tk
+except ImportError:
+    import tkinter as tk
+
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.10.0"
+__version__ = "1.10.1"
 __author__ = "DeflatedPickle"
 
 

@@ -1,5 +1,5 @@
 # MenuMaker
-An easy solution for creating menus with TkInter in just a few lines.
+An easy solution for creating menus for TkInter applications in just a few lines.
 
 What does this library do? It decreases the amount of lines needed to construct menus to a single line.
 
@@ -8,6 +8,7 @@ How? A function call with dictionaries and lists.
 Why should I use this? It'll save you time.
 
 ## Comparison:
+Both of the following code snippets produce the same output, but as you'll see, the code from MenuMaker is much shorter.
 ### Normal Tkinter:
 ```python
 import tkinter as tk
