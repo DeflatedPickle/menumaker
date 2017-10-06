@@ -10,7 +10,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.10.1"
+__version__ = "1.10.2"
 __author__ = "DeflatedPickle"
 
 
@@ -51,7 +51,7 @@ def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: 
 
 def _set_command(command):
     try:
-        return getattr(__import__(__name__), command)
+        return getattr(__import__("__main__"), command)
 
     except AttributeError:
         return None
@@ -67,7 +67,7 @@ def _remove_brackets(string: str, brackets: str):
 
 def _check_brackets(string: str, brackets: str):
     if not string.index(brackets[0]) == string.index(brackets[1]) + 1:
-        return getattr(__import__(__name__), _check_variable(string, brackets))
+        return getattr(__import__("__main__"), _check_variable(string, brackets))
 
     else:
         return None
