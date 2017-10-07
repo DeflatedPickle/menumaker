@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """"""
 
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 try:
     import Tkinter as tk
 except ImportError:
@@ -85,7 +87,7 @@ if __name__ == "__main__":
     var = tk.IntVar()
     var2 = tk.BooleanVar()
 
-    # var.trace_variable("w", lambda *args: print("Changed!"))
+    var.trace_variable("w", lambda *args: print("Changed!"))
 
     constructor(menu, [
         ("file", {"items": ["new", "open", "save"]}),
