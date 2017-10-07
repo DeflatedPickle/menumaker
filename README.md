@@ -10,6 +10,9 @@ A function call with a list of tuples or a dictionary.
 **Why should I use this?**
 It'll save you time.
 
+**How do I get this?**
+Open your terminal and type in `pip install menumaker`.
+
 ## Comparison:
 Both of the following code snippets produce the same output, but as you'll see, the code from MenuMaker is much shorter.
 ### Normal Tkinter:
