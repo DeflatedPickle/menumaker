@@ -1,11 +1,14 @@
 # MenuMaker
 An easy solution for creating menus for TkInter applications in just a few lines.
 
-What does this library do? It decreases the amount of lines needed to construct menus to a single line.
+**What does this library do?**
+It decreases the amount of lines needed to construct menus to a single line.
 
-How? A function call with dictionaries and lists.
+**How does it do it?**
+A function call with a list of tuples or a dictionary.
 
-Why should I use this? It'll save you time.
+**Why should I use this?**
+It'll save you time.
 
 ## Comparison:
 Both of the following code snippets produce the same output, but as you'll see, the code from MenuMaker is much shorter.
@@ -85,3 +88,7 @@ root.mainloop()
 - `()` - A Radiobutton.
 - `-` - A sub-menu.
 - `---` - Separator.
+
+If a function is found with the same name as a menu item, the command of that menu item will be set to the found function.
+
+Putting the name of a variable inside of the brackets for a Radio or Checkbutton will set the variable used for the Radio or Checkbutton to the variable given.
