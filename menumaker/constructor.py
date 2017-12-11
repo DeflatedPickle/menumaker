@@ -70,19 +70,21 @@ def _set_command(command):
 
 
 def _parse_accel_bind(sequence):
-    sequence = sequence.lower()
+    sequence = sequence.lower().split("+")
+    # print(sequence)
 
     parse = []
 
-    if "ctrl" in sequence:
-        parse.append("Control")
-
-    if "+" in sequence:
-        parse.append("-")
+    for item in sequence:
+        if item == "ctrl":
+            parse.append("Control")
 
     parse.append(sequence[-1].lower())
 
-    return "<" + "".join(parse) + ">"
+    finished = "<" + "-".join(parse) + ">"
+
+    # print(finished)
+    return finished
 
 
 def _remove_accel(string):
@@ -117,6 +119,9 @@ def _check_brackets(string, brackets):
 if __name__ == "__main__":
     def new(event):
         print("New!")
+
+    def delete(event):
+        print("Bwahm!")
 
     root = tk.Tk()
     menu = tk.Menu(root)
