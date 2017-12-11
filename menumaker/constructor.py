@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.13.5"
+__version__ = "1.13.6"
 __author__ = "DeflatedPickle"
 
 
@@ -53,7 +53,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
 
                 else:
                     tkmenu.add_command(label=title,
-                                       command=_set_command(title.lower()) if auto_functions else None,
+                                       command=_set_command(title.lower().replace(" ", "_")) if auto_functions else None,
                                        accel=_get_accel(command.title()))
 
         # print("-----")
@@ -138,6 +138,9 @@ if __name__ == "__main__":
     def delete(*args):
         print("Bwahm!")
 
+    def delete_all(*args):
+        print("More bwahm!")
+
     root = tk.Tk()
     menu = tk.Menu(root)
 
@@ -148,7 +151,7 @@ if __name__ == "__main__":
 
     constructor(menu, [
         ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
-        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "cut", "copy", "paste", "delete ~delete"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
