@@ -81,7 +81,8 @@ def _parse_accel_bind(sequence):
 
     parse.append(sequence[-1].lower())
 
-    finished = "<" + "-".join(parse) + ">"
+    join = "-".join(parse)
+    finished = "<" + (join if len(sequence) < 1 else join.title()) + ">"
 
     # print(finished)
     return finished
@@ -133,7 +134,7 @@ if __name__ == "__main__":
 
     constructor(menu, [
         ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
-        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+y", "---", "cut", "copy", "paste"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+y", "---", "cut", "copy", "paste", "delete ~delete"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
