@@ -17,7 +17,7 @@ __author__ = "DeflatedPickle"
 
 
 # def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
-def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True):
+def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, add_bind=True):
     menus = OrderedDict(menus)
     all_menus = {}
 
@@ -33,7 +33,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True):
 
                 if auto_bind:
                     if "~" in command:
-                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(title.lower()))
+                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(title.lower()), "+" if add_bind else "")
 
                 if command == "---":
                     tkmenu.add_separator()
@@ -79,10 +79,14 @@ def _parse_accel_bind(sequence):
         if item == "ctrl":
             parse.append("Control")
 
-    parse.append(sequence[-1].lower())
+        else:
+            parse.append(item if len(item) <= 1 else item.title())
+
+    # parse.append(sequence[-1].lower())
 
     join = "-".join(parse)
-    finished = "<" + (join if len(sequence) < 1 else join.title()) + ">"
+    # print(join)
+    finished = "<" + (join if len(sequence) > 1 else join.title()) + ">"
 
     # print(finished)
     return finished
@@ -121,6 +125,12 @@ if __name__ == "__main__":
     def new(event):
         print("New!")
 
+    def undo(event):
+        print("Undo.")
+
+    def redo(event):
+        print("Redo.")
+
     def delete(event):
         print("Bwahm!")
 
@@ -134,7 +144,7 @@ if __name__ == "__main__":
 
     constructor(menu, [
         ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
-        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+y", "---", "cut", "copy", "paste", "delete ~delete"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "cut", "copy", "paste", "delete ~delete"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
