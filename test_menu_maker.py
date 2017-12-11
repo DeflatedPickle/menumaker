@@ -4,6 +4,18 @@ import menumaker
 def new(*args):
     print("New!")
 
+def undo(*args):
+    print("Undo.")
+
+def redo(*args):
+    print("Redo.")
+
+def delete(*args):
+    print("Bwahm!")
+
+def delete_all(*args):
+    print("More bwahm!")
+
 root = tk.Tk()
 menubar = tk.Menu(root)
 
