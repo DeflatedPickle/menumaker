@@ -65,6 +65,20 @@ def _set_command(command):
         return None
 
 
+def _parse_accel_bind(sequence):
+    parse = []
+
+    if "Ctrl" in sequence:
+        parse.append("Control")
+
+    if "+" in sequence:
+        parse.append("-")
+
+    parse.append(sequence[-1].lower())
+
+    return "<" + "".join(parse) + ">"
+
+
 def _remove_accel(string):
     return string.split("~")[0].rstrip()
 
