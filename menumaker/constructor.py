@@ -17,7 +17,7 @@ __author__ = "DeflatedPickle"
 
 
 # def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
-def constructor(parent, menus, title=True, auto_functions=True):
+def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True):
     menus = OrderedDict(menus)
     all_menus = {}
 
@@ -30,6 +30,10 @@ def constructor(parent, menus, title=True, auto_functions=True):
             for command in menus[menu]["items"]:
                 # print("Command:", command)
                 title = _remove_accel(command if not title else command.title().lstrip())
+
+                if auto_bind:
+                    if "~" in command:
+                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(title.lower()))
 
                 if command == "---":
                     tkmenu.add_separator()
@@ -109,7 +113,7 @@ def _check_brackets(string, brackets):
 
 
 if __name__ == "__main__":
-    def new():
+    def new(event):
         print("New!")
 
     root = tk.Tk()
