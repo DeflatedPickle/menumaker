@@ -12,12 +12,12 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.10.3"
+__version__ = "1.13.5"
 __author__ = "DeflatedPickle"
 
 
 # def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
-def constructor(parent, menus, title=True, auto_functions=True):
+def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, add_bind=True):
     menus = OrderedDict(menus)
     all_menus = {}
 
@@ -29,24 +29,32 @@ def constructor(parent, menus, title=True, auto_functions=True):
             # print("Item:", item)
             for command in menus[menu]["items"]:
                 # print("Command:", command)
-                title = command if not title else command.title()
+                title = _remove_accel(command if not title else command.title().lstrip())
+
+                if auto_bind:
+                    if "~" in command:
+                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(title.lower()), "+" if add_bind else "")
+
                 if command == "---":
                     tkmenu.add_separator()
 
                 elif "[" in command and "]" in command:
                     tkmenu.add_checkbutton(label=_remove_brackets(title, "[]"),
-                                           variable=_check_brackets(command, "[]"))
+                                           variable=_check_brackets(command, "[]"),
+                                           accel=_get_accel(command))
 
                 elif "(" in command and ")" in command:
                     tkmenu.add_radiobutton(label=_remove_brackets(title, "()"),
-                                           variable=_check_brackets(command, "()"))
+                                           variable=_check_brackets(command, "()"),
+                                           accel=_get_accel(command))
 
                 elif "-" in command:
                     tkmenu.add_cascade(label=title.replace("-", ""), menu=all_menus[command])
 
                 else:
                     tkmenu.add_command(label=title,
-                                       command=_set_command(command) if auto_functions else None)
+                                       command=_set_command(title.lower()) if auto_functions else None,
+                                       accel=_get_accel(command.title()))
 
         # print("-----")
         if "-" not in menu:
@@ -61,12 +69,52 @@ def _set_command(command):
         return None
 
 
+def _parse_accel_bind(sequence):
+    sequence = sequence.lower().split("+")
+    # print("Original:", sequence)
+
+    parse = []
+
+    for item in sequence:
+        if item == "ctrl":
+            parse.append("Control")
+
+        else:
+            if len(item) > 1 or sequence[sequence.index(item) - 1] == "shift":
+                item = item.title()
+
+            parse.append(item)
+        # print("Parse:", parse)
+
+    # parse.append(sequence[-1].lower())
+
+    join = "-".join(parse)
+    # print("Join:", join)
+    finished = "<" + (join if len(sequence) > 1 else join.title()) + ">"
+
+    # print("Finished:", finished)
+    return finished
+
+
+def _remove_accel(string):
+    return string.split("~")[0].rstrip()
+
+
+def _get_accel(string):
+    try:
+        split = string.split("~")[1]
+    except IndexError:
+        split = None
+
+    return split
+
+
 def _check_variable(string, brackets):
     return string[string.index(brackets[0]) + 1:string.index(brackets[1])]
 
 
 def _remove_brackets(string, brackets):
-    return string[string.index(brackets[1]) + 1:]
+    return string[string.index(brackets[1]) + 1:].lstrip()
 
 
 def _check_brackets(string, brackets):
@@ -78,8 +126,17 @@ def _check_brackets(string, brackets):
 
 
 if __name__ == "__main__":
-    def new():
+    def new(*args):
         print("New!")
+
+    def undo(*args):
+        print("Undo.")
+
+    def redo(*args):
+        print("Redo.")
+
+    def delete(*args):
+        print("Bwahm!")
 
     root = tk.Tk()
     menu = tk.Menu(root)
@@ -90,10 +147,10 @@ if __name__ == "__main__":
     var.trace_variable("w", lambda *args: print("Changed!"))
 
     constructor(menu, [
-        ("file", {"items": ["new", "open", "save"]}),
-        ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
-        ("-background", {"items": ["(var)green", "(var)red"]}),
-        ("view", {"items": ["[var2]toolbar", "-background"]})
+        ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "cut", "copy", "paste", "delete ~delete"]}),
+        ("-background", {"items": ["(var) green", "(var) red"]}),
+        ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
 
     root.configure(menu=menu)
