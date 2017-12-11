@@ -29,13 +29,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
             # print("Item:", item)
             for command in menus[menu]["items"]:
                 # print("Command:", command)
-                title = _remove_accel(command if not title else command.title().lstrip())
-
-                try:
-                    title = _remove_image(title)
-
-                except IndexError:
-                    pass
+                title = _remove_image(_remove_accel(command if not title else command.title().lstrip()))
 
                 if auto_bind:
                     if "~" in command:
@@ -103,7 +97,7 @@ def _parse_accel_bind(sequence):
 
 
 def _remove_image(string):
-    return string.split("|")[1].lstrip()
+    return string.split("|")[-1].lstrip()
 
 
 def _remove_accel(string):
