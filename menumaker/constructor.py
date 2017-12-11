@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.10.3"
+__version__ = "1.11.0"
 __author__ = "DeflatedPickle"
 
 
