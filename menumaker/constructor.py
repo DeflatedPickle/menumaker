@@ -55,6 +55,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
                     tkmenu.add_command(label=title,
                                        command=_set_command(title.lower().replace(" ", "_")) if auto_functions else None,
                                        image=_get_image(command),
+                                       compound="left",
                                        accel=_get_accel(command.title()))
 
         # print("-----")
