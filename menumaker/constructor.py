@@ -54,7 +54,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True):
                 else:
                     tkmenu.add_command(label=title,
                                        command=_set_command(title.lower()) if auto_functions else None,
-                                       accel=_get_accel(command))
+                                       accel=_get_accel(command.title()))
 
         # print("-----")
         if "-" not in menu:
@@ -70,9 +70,11 @@ def _set_command(command):
 
 
 def _parse_accel_bind(sequence):
+    sequence = sequence.lower()
+
     parse = []
 
-    if "Ctrl" in sequence:
+    if "ctrl" in sequence:
         parse.append("Control")
 
     if "+" in sequence:
@@ -125,8 +127,8 @@ if __name__ == "__main__":
     var.trace_variable("w", lambda *args: print("Changed!"))
 
     constructor(menu, [
-        ("file", {"items": ["new ~Ctrl+N", "open", "save"]}),
-        ("edit", {"items": ["undo ~Ctrl+Z", "redo ~Ctrl+Y", "---", "cut", "copy", "paste"]}),
+        ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+y", "---", "cut", "copy", "paste"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
