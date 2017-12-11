@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.13.6"
+__version__ = "1.13.7"
 __author__ = "DeflatedPickle"
 
 
@@ -30,6 +30,12 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
             for command in menus[menu]["items"]:
                 # print("Command:", command)
                 title = _remove_accel(command if not title else command.title().lstrip())
+
+                try:
+                    title = _remove_image(title)
+
+                except IndexError:
+                    pass
 
                 if auto_bind:
                     if "~" in command:
@@ -96,6 +102,10 @@ def _parse_accel_bind(sequence):
     return finished
 
 
+def _remove_image(string):
+    return string.split("|")[1].lstrip()
+
+
 def _remove_accel(string):
     return string.split("~")[0].rstrip()
 
@@ -144,6 +154,8 @@ if __name__ == "__main__":
     root = tk.Tk()
     menu = tk.Menu(root)
 
+    image = tk.PhotoImage("an_image", file="image.png")
+
     var = tk.IntVar()
     var2 = tk.BooleanVar()
 
@@ -151,7 +163,7 @@ if __name__ == "__main__":
 
     constructor(menu, [
         ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
-        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "image| cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
