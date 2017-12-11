@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.13.7"
+__version__ = "1.13.8"
 __author__ = "DeflatedPickle"
 
 
@@ -54,6 +54,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
                 else:
                     tkmenu.add_command(label=title,
                                        command=_set_command(title.lower().replace(" ", "_")) if auto_functions else None,
+                                       image=_get_image(command),
                                        accel=_get_accel(command.title()))
 
         # print("-----")
@@ -98,6 +99,16 @@ def _parse_accel_bind(sequence):
 
 def _remove_image(string):
     return string.split("|")[-1].lstrip()
+
+
+def _get_image(string):
+    if "|" in string:
+        split = string.split("|")[0].rstrip()
+
+    else:
+        split = None
+
+    return split
 
 
 def _remove_accel(string):
@@ -148,7 +159,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     menu = tk.Menu(root)
 
-    image = tk.PhotoImage("an_image", file="image.png")
+    image = tk.PhotoImage("scissors", file="image.png")
 
     var = tk.IntVar()
     var2 = tk.BooleanVar()
@@ -157,7 +168,7 @@ if __name__ == "__main__":
 
     constructor(menu, [
         ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
-        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "image| cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "scissors| cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
