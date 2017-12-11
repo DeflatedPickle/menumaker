@@ -49,7 +49,7 @@ def constructor(parent, menus, title=True, auto_functions=True):
 
                 else:
                     tkmenu.add_command(label=title,
-                                       command=_set_command(command) if auto_functions else None,
+                                       command=_set_command(title.lower()) if auto_functions else None,
                                        accel=_get_accel(command))
 
         # print("-----")
