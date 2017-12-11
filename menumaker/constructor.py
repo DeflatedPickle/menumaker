@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.13.8"
+__version__ = "1.13.9"
 __author__ = "DeflatedPickle"
 
 
@@ -54,7 +54,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
                 else:
                     tkmenu.add_command(label=title,
                                        command=_set_command(title.lower().replace(" ", "_")) if auto_functions else None,
-                                       image=_get_image(command),
+                                       image=_check_image(_get_image(command)),
                                        compound="left",
                                        accel=_get_accel(command.title()))
 
@@ -96,6 +96,23 @@ def _parse_accel_bind(sequence):
 
     # print("Finished:", finished)
     return finished
+
+
+def _check_image(string):
+    if type(string) is str:
+        try:
+            attr_string = getattr(__import__("__main__"), string)
+        except AttributeError:
+            attr_string = None
+
+        if attr_string:
+            return attr_string
+
+        else:
+            return string
+
+    else:
+        return None
 
 
 def _remove_image(string):
@@ -161,6 +178,7 @@ if __name__ == "__main__":
     menu = tk.Menu(root)
 
     image = tk.PhotoImage("scissors", file="image.png")
+    image2 = tk.PhotoImage("copy", file="image2.png")
 
     var = tk.IntVar()
     var2 = tk.BooleanVar()
@@ -169,7 +187,7 @@ if __name__ == "__main__":
 
     constructor(menu, [
         ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
-        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "scissors| cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "scissors| cut", "image2| copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
