@@ -29,7 +29,7 @@ def constructor(parent, menus, title=True, auto_functions=True):
             # print("Item:", item)
             for command in menus[menu]["items"]:
                 # print("Command:", command)
-                title = _remove_accel(command if not title else command.title())
+                title = _remove_accel(command if not title else command.title().lstrip())
 
                 if command == "---":
                     tkmenu.add_separator()
@@ -66,7 +66,7 @@ def _set_command(command):
 
 
 def _remove_accel(string):
-    return string.split("~")[0]
+    return string.split("~")[0].rstrip()
 
 
 def _get_accel(string):
@@ -83,7 +83,7 @@ def _check_variable(string, brackets):
 
 
 def _remove_brackets(string, brackets):
-    return string[string.index(brackets[1]) + 1:]
+    return string[string.index(brackets[1]) + 1:].lstrip()
 
 
 def _check_brackets(string, brackets):
@@ -109,8 +109,8 @@ if __name__ == "__main__":
     constructor(menu, [
         ("file", {"items": ["new ~Ctrl+N", "open", "save"]}),
         ("edit", {"items": ["undo ~Ctrl+Z", "redo ~Ctrl+Y", "---", "cut", "copy", "paste"]}),
-        ("-background", {"items": ["(var)green", "(var)red"]}),
-        ("view", {"items": ["[var2]toolbar", "-background"]})
+        ("-background", {"items": ["(var) green", "(var) red"]}),
+        ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
 
     root.configure(menu=menu)
