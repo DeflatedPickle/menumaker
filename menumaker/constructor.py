@@ -126,16 +126,16 @@ def _check_brackets(string, brackets):
 
 
 if __name__ == "__main__":
-    def new(event):
+    def new(*args):
         print("New!")
 
-    def undo(event):
+    def undo(*args):
         print("Undo.")
 
-    def redo(event):
+    def redo(*args):
         print("Redo.")
 
-    def delete(event):
+    def delete(*args):
         print("Bwahm!")
 
     root = tk.Tk()
