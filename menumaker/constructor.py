@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.13.9"
+__version__ = "1.14.0"
 __author__ = "DeflatedPickle"
 
 
@@ -177,8 +177,8 @@ if __name__ == "__main__":
     root = tk.Tk()
     menu = tk.Menu(root)
 
-    image = tk.PhotoImage("scissors", file="image.png")
-    image2 = tk.PhotoImage("copy", file="image2.png")
+    # image = tk.PhotoImage("scissors", file="image.png")
+    # image2 = tk.PhotoImage("copy", file="image2.png")
 
     var = tk.IntVar()
     var2 = tk.BooleanVar()
@@ -187,7 +187,7 @@ if __name__ == "__main__":
 
     constructor(menu, [
         ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
-        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "scissors| cut", "image2| copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
+        ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
         ("-background", {"items": ["(var) green", "(var) red"]}),
         ("view", {"items": ["[var2] toolbar", "-background"]})
     ])
