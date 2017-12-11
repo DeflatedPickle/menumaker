@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.13.6"
+__version__ = "1.14.0"
 __author__ = "DeflatedPickle"
 
 
@@ -29,7 +29,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
             # print("Item:", item)
             for command in menus[menu]["items"]:
                 # print("Command:", command)
-                title = _remove_accel(command if not title else command.title().lstrip())
+                title = _remove_image(_remove_accel(command if not title else command.title().lstrip()))
 
                 if auto_bind:
                     if "~" in command:
@@ -54,6 +54,8 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
                 else:
                     tkmenu.add_command(label=title,
                                        command=_set_command(title.lower().replace(" ", "_")) if auto_functions else None,
+                                       image=_check_image(_get_image(command)),
+                                       compound="left",
                                        accel=_get_accel(command.title()))
 
         # print("-----")
@@ -94,6 +96,37 @@ def _parse_accel_bind(sequence):
 
     # print("Finished:", finished)
     return finished
+
+
+def _check_image(string):
+    if type(string) is str:
+        try:
+            attr_string = getattr(__import__("__main__"), string)
+        except AttributeError:
+            attr_string = None
+
+        if attr_string:
+            return attr_string
+
+        else:
+            return string
+
+    else:
+        return None
+
+
+def _remove_image(string):
+    return string.split("|")[-1].lstrip()
+
+
+def _get_image(string):
+    if "|" in string:
+        split = string.split("|")[0].rstrip()
+
+    else:
+        split = None
+
+    return split
 
 
 def _remove_accel(string):
@@ -143,6 +176,9 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     menu = tk.Menu(root)
+
+    # image = tk.PhotoImage("scissors", file="image.png")
+    # image2 = tk.PhotoImage("copy", file="image2.png")
 
     var = tk.IntVar()
     var2 = tk.BooleanVar()
