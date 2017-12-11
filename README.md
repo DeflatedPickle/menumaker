@@ -122,6 +122,7 @@ root.mainloop()
 - `-` - A sub-menu.
 - `---` - A Separator.
 - `~` - An accelerator label.
+- `|` - An image.
 
 If a function is found with the same name as a menu item, the command of that menu item will be set to the found function.
 
