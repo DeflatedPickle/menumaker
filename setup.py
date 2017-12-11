@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="menumaker",
-      version="1.0.1",
+      version="1.1.0",
       description="An easy solution for creating menus for TkInter applications in just a few lines.",
       author="DeflatedPickle",
       author_email="DeflatedPickle@gmail.com",

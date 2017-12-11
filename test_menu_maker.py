@@ -1,7 +1,7 @@
 import tkinter as tk
 import menumaker
 
-def new():
+def new(*args):
     print("New!")
 
 root = tk.Tk()
@@ -13,10 +13,10 @@ var2 = tk.BooleanVar()
 var.trace_variable("w", lambda *args: print("Changed!"))
 
 menumaker.constructor(menubar, [
-    ("file", {"items": ["new", "open", "save"]}),
-    ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
-    ("-background", {"items": ["(var)green", "(var)red"]}),
-    ("view", {"items": ["[var2]toolbar", "-background"]})
+    ("file", {"items": ["new ~ctrl+n", "open", "save"]}),
+    ("edit", {"items": ["undo ~ctrl+z", "redo ~ctrl+shift+z", "---", "cut", "copy", "paste", "delete ~delete", "delete all ~alt+delete"]}),
+    ("-background", {"items": ["(var) green", "(var) red"]}),
+    ("view", {"items": ["[var2] toolbar", "-background"]})
 ])
 
 root.configure(menu=menubar)
