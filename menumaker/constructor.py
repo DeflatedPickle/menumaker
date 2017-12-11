@@ -29,24 +29,28 @@ def constructor(parent, menus, title=True, auto_functions=True):
             # print("Item:", item)
             for command in menus[menu]["items"]:
                 # print("Command:", command)
-                title = command if not title else command.title()
+                title = _remove_accel(command if not title else command.title())
+
                 if command == "---":
                     tkmenu.add_separator()
 
                 elif "[" in command and "]" in command:
                     tkmenu.add_checkbutton(label=_remove_brackets(title, "[]"),
-                                           variable=_check_brackets(command, "[]"))
+                                           variable=_check_brackets(command, "[]"),
+                                           accel=_get_accel(command))
 
                 elif "(" in command and ")" in command:
                     tkmenu.add_radiobutton(label=_remove_brackets(title, "()"),
-                                           variable=_check_brackets(command, "()"))
+                                           variable=_check_brackets(command, "()"),
+                                           accel=_get_accel(command))
 
                 elif "-" in command:
                     tkmenu.add_cascade(label=title.replace("-", ""), menu=all_menus[command])
 
                 else:
                     tkmenu.add_command(label=title,
-                                       command=_set_command(command) if auto_functions else None)
+                                       command=_set_command(command) if auto_functions else None,
+                                       accel=_get_accel(command))
 
         # print("-----")
         if "-" not in menu:
@@ -59,6 +63,19 @@ def _set_command(command):
 
     except AttributeError:
         return None
+
+
+def _remove_accel(string):
+    return string.split("~")[0]
+
+
+def _get_accel(string):
+    try:
+        split = string.split("~")[1]
+    except IndexError:
+        split = None
+
+    return split
 
 
 def _check_variable(string, brackets):
@@ -90,8 +107,8 @@ if __name__ == "__main__":
     var.trace_variable("w", lambda *args: print("Changed!"))
 
     constructor(menu, [
-        ("file", {"items": ["new", "open", "save"]}),
-        ("edit", {"items": ["undo", "redo", "---", "cut", "copy", "paste"]}),
+        ("file", {"items": ["new ~Ctrl+N", "open", "save"]}),
+        ("edit", {"items": ["undo ~Ctrl+Z", "redo ~Ctrl+Y", "---", "cut", "copy", "paste"]}),
         ("-background", {"items": ["(var)green", "(var)red"]}),
         ("view", {"items": ["[var2]toolbar", "-background"]})
     ])
