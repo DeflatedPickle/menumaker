@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.13.4"
+__version__ = "1.13.5"
 __author__ = "DeflatedPickle"
 
 
@@ -71,7 +71,7 @@ def _set_command(command):
 
 def _parse_accel_bind(sequence):
     sequence = sequence.lower().split("+")
-    # print(sequence)
+    # print("Original:", sequence)
 
     parse = []
 
@@ -80,15 +80,19 @@ def _parse_accel_bind(sequence):
             parse.append("Control")
 
         else:
-            parse.append(item if len(item) <= 1 else item.title())
+            if len(item) > 1 or sequence[sequence.index(item) - 1] == "shift":
+                item = item.title()
+
+            parse.append(item)
+        # print("Parse:", parse)
 
     # parse.append(sequence[-1].lower())
 
     join = "-".join(parse)
-    # print(join)
+    # print("Join:", join)
     finished = "<" + (join if len(sequence) > 1 else join.title()) + ">"
 
-    # print(finished)
+    # print("Finished:", finished)
     return finished
 
 
