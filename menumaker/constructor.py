@@ -12,12 +12,13 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.14.0"
+__version__ = "1.14.1"
 __author__ = "DeflatedPickle"
 
 
 # def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
 def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, add_bind=True):
+    # type: (tk.Menu, dict, bool, bool, bool) -> None
     menus = OrderedDict(menus)
     all_menus = {}
 
@@ -64,6 +65,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
 
 
 def _set_command(command):
+    # type: (str) -> function
     try:
         return getattr(__import__("__main__"), command)
 
@@ -72,6 +74,7 @@ def _set_command(command):
 
 
 def _parse_accel_bind(sequence):
+    # type: (str) -> str
     sequence = sequence.lower().split("+")
     # print("Original:", sequence)
 
@@ -99,6 +102,7 @@ def _parse_accel_bind(sequence):
 
 
 def _check_image(string):
+    # type: (str) -> str
     if type(string) is str:
         try:
             attr_string = getattr(__import__("__main__"), string)
@@ -116,10 +120,12 @@ def _check_image(string):
 
 
 def _remove_image(string):
+    # type: (str) -> str
     return string.split("|")[-1].lstrip()
 
 
 def _get_image(string):
+    # type: (str) -> str
     if "|" in string:
         split = string.split("|")[0].rstrip()
 
@@ -130,10 +136,12 @@ def _get_image(string):
 
 
 def _remove_accel(string):
+    # type: (str) -> str
     return string.split("~")[0].rstrip()
 
 
 def _get_accel(string):
+    # type: (str) -> str
     try:
         split = string.split("~")[1]
     except IndexError:
@@ -143,14 +151,17 @@ def _get_accel(string):
 
 
 def _check_variable(string, brackets):
+    # type: (str, str) -> str
     return string[string.index(brackets[0]) + 1:string.index(brackets[1])]
 
 
 def _remove_brackets(string, brackets):
+    # type: (str, str) -> str
     return string[string.index(brackets[1]) + 1:].lstrip()
 
 
 def _check_brackets(string, brackets):
+    # type: (str, str) -> str
     if not string.index(brackets[0]) == string.index(brackets[1]) + 1:
         return getattr(__import__("__main__"), _check_variable(string, brackets))
 
