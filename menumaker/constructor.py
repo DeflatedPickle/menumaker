@@ -12,18 +12,19 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.14.2"
+__version__ = "1.15.0"
 __author__ = "DeflatedPickle"
 
 
 # def constructor(parent: tk.Menu, menus: dict, title: bool=True, auto_functions: bool=True):
-def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, add_bind=True):
+def constructor(parent, menus, scope=None, title=True, auto_functions=True, auto_bind=True, add_bind=True):
     # type: (tk.Menu, list[tuple], bool, bool, bool) -> None
     """
     Constructs a menu from a dictionary.
 
     :param parent: The parent widget.
     :param menus: The dictionary of menus.
+    :param scope: The scope to look for functions in.
     :param title: If or not to make the labels titled (new -> New).
     :param auto_functions: If or not to enable automatic function assigning (New -> new()).
     :param auto_bind: If or not to automatically bind keybinds to functions (Ctrl+n -> new()).
@@ -45,7 +46,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
 
                 if auto_bind:
                     if "~" in command:
-                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(title.lower()), "+" if add_bind else "")
+                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(title.lower(), scope), "+" if add_bind else "")
 
                 if command == "---":
                     tkmenu.add_separator()
@@ -65,7 +66,7 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
 
                 else:
                     tkmenu.add_command(label=title,
-                                       command=_set_command(title.lower().replace(" ", "_")) if auto_functions else None,
+                                       command=_set_command(title.lower().replace(" ", "_"), scope) if auto_functions else None,
                                        image=_check_image(_get_image(command)),
                                        compound="left",
                                        accel=_get_accel(command.title()))
@@ -75,14 +76,20 @@ def constructor(parent, menus, title=True, auto_functions=True, auto_bind=True, 
             parent.add_cascade(label=menu if not title else menu.title(), menu=tkmenu)
 
 
-def _set_command(command):
+def _set_command(command, scope):
     # type: (str) -> function
     """
     :param command:
+    :param scope:
     :return:
     """
+
+    if scope is None:
+        scope = __import__("__main__")
+
     try:
-        return getattr(__import__("__main__"), command)
+        if callable(getattr(scope, command)):
+            return getattr(scope, command)
 
     except AttributeError:
         return None
