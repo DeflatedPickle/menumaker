@@ -12,7 +12,7 @@ except ImportError:
 from collections import OrderedDict
 
 __title__ = "Constructor"
-__version__ = "1.15.0"
+__version__ = "1.16.0"
 __author__ = "DeflatedPickle"
 
 
@@ -31,6 +31,9 @@ def constructor(parent, menus, scope=None, title=True, auto_functions=True, auto
     :param add_bind: If or not to add the binds (master.bind(sequence, function, add="+")).
     :return:
     """
+    if scope is None:
+        scope = __import__("__main__")
+
     menus = OrderedDict(menus)
     all_menus = {}
 
@@ -43,22 +46,31 @@ def constructor(parent, menus, scope=None, title=True, auto_functions=True, auto
             for command in menus[menu]["items"]:
                 # print("Command:", command)
                 title = _remove_image(_remove_accel(command if not title else command.title().lstrip()))
+                command_title = title.lower().replace(" ", "_")
+
+                if "[" in title and "]" in title:
+                    command_title = _remove_brackets(command_title, "[]")
+
+                elif "(" in title and ")" in title:
+                    command_title = _remove_brackets(command_title, "()")
 
                 if auto_bind:
                     if "~" in command:
-                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(title.lower(), scope), "+" if add_bind else "")
+                        parent.master.bind(_parse_accel_bind(command.split("~")[1]), _set_command(command_title, scope), "+" if add_bind else "")
 
                 if command == "---":
                     tkmenu.add_separator()
 
                 elif "[" in command and "]" in command:
                     tkmenu.add_checkbutton(label=_remove_brackets(title, "[]"),
-                                           variable=_check_brackets(command, "[]"),
+                                           command=_set_command(command_title, scope) if auto_functions else None,
+                                           variable=_check_brackets(command, "[]", scope),
                                            accel=_get_accel(command))
 
                 elif "(" in command and ")" in command:
                     tkmenu.add_radiobutton(label=_remove_brackets(title, "()"),
-                                           variable=_check_brackets(command, "()"),
+                                           command=_set_command(command_title, scope) if auto_functions else None,
+                                           variable=_check_brackets(command, "()", scope),
                                            accel=_get_accel(command))
 
                 elif "-" in command:
@@ -66,7 +78,7 @@ def constructor(parent, menus, scope=None, title=True, auto_functions=True, auto
 
                 else:
                     tkmenu.add_command(label=title,
-                                       command=_set_command(title.lower().replace(" ", "_"), scope) if auto_functions else None,
+                                       command=_set_command(command_title, scope) if auto_functions else None,
                                        image=_check_image(_get_image(command)),
                                        compound="left",
                                        accel=_get_accel(command.title()))
@@ -83,10 +95,6 @@ def _set_command(command, scope):
     :param scope:
     :return:
     """
-
-    if scope is None:
-        scope = __import__("__main__")
-
     try:
         if callable(getattr(scope, command)):
             return getattr(scope, command)
@@ -216,7 +224,7 @@ def _remove_brackets(string, brackets):
     return string[string.index(brackets[1]) + 1:].lstrip()
 
 
-def _check_brackets(string, brackets):
+def _check_brackets(string, brackets, scope):
     # type: (str, str) -> str
     """
     :param string:
@@ -224,7 +232,7 @@ def _check_brackets(string, brackets):
     :return:
     """
     if not string.index(brackets[0]) == string.index(brackets[1]) + 1:
-        return getattr(__import__("__main__"), _check_variable(string, brackets))
+        return getattr(scope, _check_variable(string, brackets))
 
     else:
         return None
